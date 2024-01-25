@@ -105,13 +105,12 @@
 								<div class="main-menu">
 									<nav class="navigation">
 										<ul class="nav menu">
-											<li class="active"><a href="index.html">Home </i></a>
-											</li>
+											<li class="active"><a href="index.html">Home</a></li>
 											<li><a href="about.html">About </a></li>
 											<li><a href="Services.html">Services </a></li>
-											<li><a href="contact.html">Contact Us</i></a>
+											<li><a href="contact.html">Contact Us</li></a>
 											</li>
-											<li><a href="#">Blogs </i></a>
+											<li><a href="#">Blogs</a>
 											</li>
 										</ul>
 									</nav>
@@ -161,31 +160,31 @@
 								<h2>Contact With Us</h2>
 								<p>If you have any questions please fell free to contact with us.</p>
 								<!-- Form -->
-								<form class="form" method="post" action="mail/mail.php">
+								<form class="form" onsubmit="sendEmail(); reset(); return false">
 									<div class="row">
 										<div class="col-lg-6">
 											<div class="form-group">
-												<input type="text" name="name" placeholder="Name" required="">
+												<input type="text" id="name" name="name" placeholder="Name" required="">
 											</div>
 										</div>
 										<div class="col-lg-6">
 											<div class="form-group">
-												<input type="email" name="email" placeholder="Email" required="">
+												<input type="email" id="email" name="email" placeholder="Email" required="">
 											</div>
 										</div>
 										<div class="col-lg-6">
 											<div class="form-group">
-												<input type="text" name="phone" placeholder="Phone" required="">
+												<input type="text" name="tel" id="tel" placeholder="Phone" required="">
 											</div>
 										</div>
 										<div class="col-lg-6">
 											<div class="form-group">
-												<input type="text" name="subject" placeholder="Subject" required="">
+												<input type="text" name="sub" id="sub" placeholder="Subject" required="">
 											</div>
 										</div>
 										<div class="col-lg-12">
 											<div class="form-group">
-												<textarea name="message" placeholder="Your Message" required=""></textarea>
+												<textarea name="msg" id="msg" placeholder="Your Message" required=""></textarea>
 											</div>
 										</div>
 										<div class="col-12">
@@ -358,5 +357,41 @@
 		<script src="js/bootstrap.min.js"></script>
 		<!-- Main JS -->
 		<script src="js/main.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+		<script src="https://smtpjs.com/v3/smtp.js"></script>
+		<script>
+			async function sendEmail() {
+  let fromName = document.getElementById("name").value;
+  let email = document.getElementById("email").value;
+  let phone = document.getElementById("tel").value;
+  let msg = document.getElementById("msg").value;
+  let sub = document.getElementById("sub").value;
+
+  let mailBody = `Name: ${fromName} <br> Email: ${email} <br> Phone: ${phone} <br> Message: ${msg}`;
+
+  await Email.send({
+    SecureToken: "dd824bae-8b8b-4c0b-8817-83d6e4dd3b60",
+    To: "", // Add Receive email address 
+    From: "winnersdominic081@gmail.com",
+    Subject: sub,
+    Body: mailBody,
+  }).then((message) => {
+    if (message == "OK") {
+      Swal.fire({
+        title: "Thank You!",
+        text: "Your request has been submitted!",
+        icon: "success",
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
+    }
+  });
+}
+
+		</script>
     </body>
 </html>
